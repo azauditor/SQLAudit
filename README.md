@@ -2,6 +2,56 @@
 
 These are queries to help assist with retrieving users inside of a SQL instance and the permissions that those users are assigned.  These queries are designed to only read data and will not modify or create data inside of the database.
 
+## SQL Server Edition
+
+This query is used to determine which edition of SQL Server is installed and what version is currently running.  This query was found at [Stackoverflow](https://stackoverflow.com/questions/18070177/how-to-get-current-instance-name-from-t-sql) and was designed by user with handle of "Nate S."
+
+``` SQL
+SELECT
+    SERVERPROPERTY('ServerName') AS ServerName,
+    SERVERPROPERTY('MachineName') AS MachineName,
+    CASE
+        WHEN  SERVERPROPERTY('InstanceName') IS NULL THEN ''
+        ELSE SERVERPROPERTY('InstanceName')
+    END AS InstanceName,
+    '' as Port, --need to update to strip from Servername. Note: Assumes Registered Server is named with Port
+    SUBSTRING ( (SELECT @@VERSION),1, CHARINDEX('-',(SELECT @@VERSION))-1 ) as ProductName,
+    SERVERPROPERTY('ProductVersion') AS ProductVersion,
+    SERVERPROPERTY('ProductLevel') AS ProductLevel,
+    SERVERPROPERTY('ProductMajorVersion') AS ProductMajorVersion,
+    SERVERPROPERTY('ProductMinorVersion') AS ProductMinorVersion,
+    SERVERPROPERTY('ProductBuild') AS ProductBuild,
+    SERVERPROPERTY('Edition') AS Edition,
+    CASE SERVERPROPERTY('EngineEdition')
+        WHEN 1 THEN 'PERSONAL'
+        WHEN 2 THEN 'STANDARD'
+        WHEN 3 THEN 'ENTERPRISE'
+        WHEN 4 THEN 'EXPRESS'
+        WHEN 5 THEN 'SQL DATABASE'
+        WHEN 6 THEN 'SQL DATAWAREHOUSE'
+    END AS EngineEdition,
+    CASE SERVERPROPERTY('IsHadrEnabled')
+        WHEN 0 THEN 'The Always On Availability Groups feature is disabled'
+        WHEN 1 THEN 'The Always On Availability Groups feature is enabled'
+        ELSE 'Not applicable'
+    END AS HadrEnabled,
+    CASE SERVERPROPERTY('HadrManagerStatus')
+        WHEN 0 THEN 'Not started, pending communication'
+        WHEN 1 THEN 'Started and running'
+        WHEN 2 THEN 'Not started and failed'
+        ELSE 'Not applicable'
+    END AS HadrManagerStatus,
+    CASE SERVERPROPERTY('IsSingleUser') WHEN 0 THEN 'No' ELSE 'Yes' END AS InSingleUserMode,
+    CASE SERVERPROPERTY('IsClustered')
+        WHEN 1 THEN 'Clustered'
+        WHEN 0 THEN 'Not Clustered'
+        ELSE 'Not applicable'
+    END AS IsClustered,
+    '' as ServerEnvironment,
+    '' as ServerStatus,
+    '' as Comments
+```
+
 ## SQL Server Instance
 
 The following query is used to determine what accounts have the ability to login to the SQL instance and the Server Roles that they are assigned to.
@@ -13,7 +63,7 @@ FROM sys.server_principals AS SP1
     ON SP1.principal_id = SRM.member_principal_id
   JOIN sys.server_principals AS SP2
     ON SRM.role_principal_id = SP2.principal_id
-ORDER BY SP1.[name], SP2.[name];
+ORDER BY SP1.[name], SP2.[name]
 ```
 
 ## SQL Sever SQL Login Password Settings
@@ -36,12 +86,14 @@ FROM sys.sql_logins
 GROUP BY name
 ```
 
-
 ## SQL Server Database
 
 The following query is used to determine what access has been granted to users for the 'Selected' database.
 
 1. First right-click on the database that the financial system resides on and select 'New Query'.
+
+    **Note kk**
+
 2. Then run the following query:
 
 ``` SQL
