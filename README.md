@@ -92,7 +92,7 @@ The following query is used to determine what access has been granted to users f
 
 1. First right-click on the database that the financial system resides on and select 'New Query'.
 
-    **Note kk**
+    **Note: The first step must be followed otherwise the first database on the server will be selected.  Additionally, the user running the query must have view access to database that is being selected or the query will not run.**
 
 2. Then run the following query:
 
