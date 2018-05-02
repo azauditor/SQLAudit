@@ -16,6 +16,27 @@ FROM sys.server_principals AS SP1
 ORDER BY SP1.[name], SP2.[name];
 ```
 
+## SQL Sever SQL Login Password Settings
+
+The following query is used to find accounts that can sign into the SQL Instance withouth being authenticated to AD and to display what password settings are being applied to those accounts. **Note** that you will have to enter the maximum number of days that your organization uses to expire passwords.
+
+``` SQL
+SELECT name AS 'SQL_User',
+    LOGINPROPERTY(name, 'BadPasswordCount') AS 'BadPasswordCount',
+    LOGINPROPERTY(name, 'DaysUntilExpiration') AS 'DaysUntilPasswordExpires',
+    LOGINPROPERTY(name, 'HistoryLength') AS 'PasswordHistoryLength',
+    LOGINPROPERTY(name, 'IsExpired') AS 'IsSQLLoginExpired',
+    LOGINPROPERTY(name, 'IsLocked') AS 'IsSQLLoginLocked',
+    LOGINPROPERTY(name, 'IsMustChange') AS 'IsPasswordMustChangeOnNextLogin',
+    LOGINPROPERTY(name, 'LockoutTime') AS 'LockoutTime',
+    LOGINPROPERTY(name, 'PasswordHashAlgorithm') AS 'PasswordHashAlgorithm',
+    LOGINPROPERTY(name, 'PasswordLastSetTime') AS 'PasswordLastResetDT',
+    '[INSERT NUMBER OF DAYS THAT PASSWORD ARE SUPPOSED TO EXPIRE]' - DATEDIFF(DAY, CONVERT(DATETIME, LOGINPROPERTY(name, 'PasswordLastSetTime')), GETDATE()) AS 'DaysUntilExpiration'
+FROM sys.sql_logins
+GROUP BY name
+```
+
+
 ## SQL Server Database
 
 The following query is used to determine what access has been granted to users for the 'Selected' database.
