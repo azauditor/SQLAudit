@@ -66,7 +66,7 @@ FROM sys.server_principals AS SP1
 ORDER BY SP1.[name], SP2.[name]
 ```
 
-## SQL Sever SQL Login Password Settings
+## SQL Server SQL Login Password Settings
 
 The following query is used to find accounts that can sign into the SQL Instance withouth being authenticated to AD and to display what password settings are being applied to those accounts. **Note** that you will have to enter the maximum number of days that your organization uses to expire passwords.
 
