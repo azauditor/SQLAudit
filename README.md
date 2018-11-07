@@ -80,8 +80,7 @@ SELECT name AS 'SQL_User',
     LOGINPROPERTY(name, 'IsMustChange') AS 'IsPasswordMustChangeOnNextLogin',
     LOGINPROPERTY(name, 'LockoutTime') AS 'LockoutTime',
     LOGINPROPERTY(name, 'PasswordHashAlgorithm') AS 'PasswordHashAlgorithm',
-    LOGINPROPERTY(name, 'PasswordLastSetTime') AS 'PasswordLastResetDT',
-    '[INSERT NUMBER OF DAYS THAT PASSWORD ARE SUPPOSED TO EXPIRE]' - DATEDIFF(DAY, CONVERT(DATETIME, LOGINPROPERTY(name, 'PasswordLastSetTime')), GETDATE()) AS 'DaysUntilExpiration'
+    LOGINPROPERTY(name, 'PasswordLastSetTime') AS 'PasswordLastResetDT'
 FROM sys.sql_logins
 GROUP BY name
 ```
