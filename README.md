@@ -75,7 +75,6 @@ SELECT name AS 'SQL_User',
     is_policy_checked AS 'EnforcePasswordPolicyChecked',
     is_expiration_checked AS 'EnforcePasswordExpirationChecked'
 FROM sys.sql_logins
-GROUP BY name
 ```
 
 ## SQL Server Database
