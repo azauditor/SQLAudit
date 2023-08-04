@@ -90,7 +90,8 @@ The following query is used to determine what access has been granted to users f
 ``` SQL
 SELECT DP1.name AS DatabaseRoleName,
     DB_NAME() AS DatabaseName,
-    ISNULL(DP2.name, 'No members') AS DatabaseUserName
+    ISNULL(DP2.name, 'No members') AS DatabaseUserName,
+    DP2.type AS DatabaseUserType
 FROM sys.database_role_members AS DRM
     RIGHT OUTER JOIN sys.database_principals AS DP1
         ON DRM.role_principal_id = DP1.principal_id
