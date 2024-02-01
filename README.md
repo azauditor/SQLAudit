@@ -87,7 +87,8 @@ The following query is used to determine what access has been granted to users f
 
 2. Then run the following query:
 
-``` SELECT DP1.name AS DatabaseRoleName,
+```
+SELECT DP1.name AS DatabaseRoleName,
     DB_NAME() AS DatabaseName,
     CASE
 		WHEN DP2.name IS NULL THEN 'No members'
