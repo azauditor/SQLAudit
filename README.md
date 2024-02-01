@@ -87,10 +87,17 @@ The following query is used to determine what access has been granted to users f
 
 2. Then run the following query:
 
-``` SQL
-SELECT DP1.name AS DatabaseRoleName,
+``` SELECT DP1.name AS DatabaseRoleName,
     DB_NAME() AS DatabaseName,
-    ISNULL(DP2.name, 'No members') AS DatabaseUserName,
+    CASE
+		WHEN DP2.name IS NULL THEN 'No members'
+		WHEN DP2.name='dbo' THEN SUSER_NAME(DP2.principal_id)
+		ELSE DP2.name
+	END AS DatabaseUserName,
+	CASE
+		WHEN DP2.name='dbo' THEN 'Y'
+		ELSE 'N'
+	END AS DboUser,
     DP2.type AS DatabaseUserType
 FROM sys.database_role_members AS DRM
     RIGHT OUTER JOIN sys.database_principals AS DP1
