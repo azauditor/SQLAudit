@@ -87,7 +87,7 @@ The following query is used to determine what access has been granted to users f
 
 2. Then run the following query:
 
-```
+``` SQL
 SELECT DP1.name AS DatabaseRoleName,
     DB_NAME() AS DatabaseName,
     CASE
