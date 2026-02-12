@@ -88,6 +88,8 @@ The following query is used to determine what access has been granted to users f
 2. Then run the following query:
 
 ``` SQL
+USE [INSERT SYSTEM DATABASE NAME]
+GO
 SELECT DB_NAME() AS DatabaseName,
     DP1.name AS DatabaseRoleName,
     CASE
