@@ -81,13 +81,13 @@ FROM sys.sql_logins
 
 The following query is used to determine what access has been granted to users for the 'Selected' database.
 
-1. First right-click on the database that the financial system resides on and select 'New Query'.
-
-    **Note: The first step must be followed otherwise the first database on the server will be selected.  Additionally, the user running the query must have view access to database that is being selected or the query will not run.**
-
-2. Then run the following query:
+1. First add the name of the database that the financial system uses in place of `[INSERT SYSTEM DATABASE NAME]` on line 1.
+2. Then run the query below to retrieve database role grants.
+3. Repeat this process for other databases that the financial system uses.
 
 ``` SQL
+USE [INSERT SYSTEM DATABASE NAME]
+GO
 SELECT DB_NAME() AS DatabaseName,
     DP1.name AS DatabaseRoleName,
     CASE
