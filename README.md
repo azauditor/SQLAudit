@@ -73,7 +73,8 @@ The following query is used to find accounts that can sign into the SQL Instance
 ``` SQL
 SELECT name AS 'SQL_User',
     is_policy_checked AS 'EnforcePasswordPolicyChecked',
-    is_expiration_checked AS 'EnforcePasswordExpirationChecked'
+    is_expiration_checked AS 'EnforcePasswordExpirationChecked',
+    is_disabled
 FROM sys.sql_logins
 ```
 
